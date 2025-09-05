@@ -1,0 +1,124 @@
+{
+  "questions": [
+    {
+      "id": 1,
+      "code": "def func(arr):\n    for i in arr:\n        print(i)",
+      "options": ["O(1)", "O(n)", "O(n^2)", "O(log n)"],
+      "correct_answer": "O(n)",
+      "explanation": "Loop simples sobre n elementos: tempo linear.",
+      "level": "beginner"
+    },
+    {
+      "id": 2,
+      "code": "def func():\n    print('Hello')",
+      "options": ["O(1)", "O(n)", "O(n^2)", "O(log n)"],
+      "correct_answer": "O(1)",
+      "explanation": "Operação constante, independe de input.",
+      "level": "beginner"
+    },
+    {
+      "id": 3,
+      "code": "def func(arr):\n    for i in arr:\n        for j in arr:\n            print(i, j)",
+      "options": ["O(1)", "O(n)", "O(n^2)", "O(log n)"],
+      "correct_answer": "O(n^2)",
+      "explanation": "Loops aninhados: quadrático.",
+      "level": "beginner"
+    },
+    {
+      "id": 4,
+      "code": "def func(n):\n    i = 1\n    while i < n:\n        i *= 2",
+      "options": ["O(1)", "O(n)", "O(n^2)", "O(log n)"],
+      "correct_answer": "O(log n)",
+      "explanation": "Multiplicação por 2: logarítmico base 2.",
+      "level": "beginner"
+    },
+    {
+      "id": 5,
+      "code": "def func(arr):\n    return arr[0]",
+      "options": ["O(1)", "O(n)", "O(n^2)", "O(log n)"],
+      "correct_answer": "O(1)",
+      "explanation": "Acesso direto a índice: constante.",
+      "level": "beginner"
+    },
+    {
+      "id": 6,
+      "code": "def func(arr):\n    for i in range(len(arr)):\n        for j in range(i+1, len(arr)):\n            print(arr[i], arr[j])",
+      "options": ["O(n)", "O(n^2)", "O(n log n)", "O(2^n)"],
+      "correct_answer": "O(n^2)",
+      "explanation": "Combinações em loops aninhados: ainda quadrático, mas ~n^2/2.",
+      "level": "intermediate"
+    },
+    {
+      "id": 7,
+      "code": "def merge_sort(arr):\n    if len(arr) <= 1:\n        return arr\n    mid = len(arr) // 2\n    left = merge_sort(arr[:mid])\n    right = merge_sort(arr[mid:])\n    return merge(left, right)",
+      "options": ["O(n)", "O(n^2)", "O(n log n)", "O(2^n)"],
+      "correct_answer": "O(n log n)",
+      "explanation": "Divide e conquista com merge: log n divisões, n merges.",
+      "level": "intermediate"
+    },
+    {
+      "id": 8,
+      "code": "def func(n):\n    if n <= 1:\n        return 1\n    return func(n-1) + func(n-2)",
+      "options": ["O(n)", "O(n^2)", "O(n log n)", "O(2^n)"],
+      "correct_answer": "O(2^n)",
+      "explanation": "Fibonacci recursivo sem memo: exponencial por chamadas duplicadas.",
+      "level": "intermediate"
+    },
+    {
+      "id": 9,
+      "code": "def binary_search(arr, target):\n    low, high = 0, len(arr)-1\n    while low <= high:\n        mid = (low + high) // 2\n        if arr[mid] == target:\n            return mid\n        elif arr[mid] < target:\n            low = mid + 1\n        else:\n            high = mid - 1\n    return -1",
+      "options": ["O(1)", "O(n)", "O(log n)", "O(n log n)"],
+      "correct_answer": "O(log n)",
+      "explanation": "Busca binária: divide o espaço pela metade a cada passo.",
+      "level": "intermediate"
+    },
+    {
+      "id": 10,
+      "code": "def func(arr):\n    for i in range(len(arr)):\n        min_idx = i\n        for j in range(i+1, len(arr)):\n            if arr[j] < arr[min_idx]:\n                min_idx = j\n        arr[i], arr[min_idx] = arr[min_idx], arr[i]",
+      "options": ["O(n)", "O(n^2)", "O(n log n)", "O(2^n)"],
+      "correct_answer": "O(n^2)",
+      "explanation": "Selection sort: loops aninhados para encontrar mínimo.",
+      "level": "intermediate"
+    },
+    {
+      "id": 11,
+      "code": "def knapsack(weights, values, capacity):\n    n = len(weights)\n    dp = [[0 for _ in range(capacity+1)] for _ in range(n+1)]\n    for i in range(1, n+1):\n        for w in range(1, capacity+1):\n            if weights[i-1] <= w:\n                dp[i][w] = max(values[i-1] + dp[i-1][w-weights[i-1]], dp[i-1][w])\n            else:\n                dp[i][w] = dp[i-1][w]\n    return dp[n][capacity]",
+      "options": ["O(n)", "O(n * capacity)", "O(2^n)", "O(n log n)"],
+      "correct_answer": "O(n * capacity)",
+      "explanation": "Programação dinâmica para knapsack: tabela 2D de tamanho n x capacity.",
+      "level": "advanced"
+    },
+    {
+      "id": 12,
+      "code": "def dijkstra(graph, start):\n    import heapq\n    dist = {node: float('inf') for node in graph}\n    dist[start] = 0\n    pq = [(0, start)]\n    while pq:\n        d, u = heapq.heappop(pq)\n        for v, weight in graph[u]:\n            if dist[v] > d + weight:\n                dist[v] = d + weight\n                heapq.heappush(pq, (dist[v], v))\n    return dist",
+      "options": ["O(V^2)", "O(E log V)", "O(V + E)", "O(2^V)"],
+      "correct_answer": "O(E log V)",
+      "explanation": "Dijkstra com heap: E arestas processadas, log V por operação.",
+      "level": "advanced"
+    },
+    {
+      "id": 13,
+      "code": "def func(n):\n    memo = {}\n    def fib(k):\n        if k in memo:\n            return memo[k]\n        if k <= 1:\n            return k\n        memo[k] = fib(k-1) + fib(k-2)\n        return memo[k]\n    return fib(n)",
+      "options": ["O(n)", "O(2^n)", "O(log n)", "O(n^2)"],
+      "correct_answer": "O(n)",
+      "explanation": "Fibonacci com memoização: linear, cada chamada é O(1) após memo.",
+      "level": "advanced"
+    },
+    {
+      "id": 14,
+      "code": "def quicksort(arr):\n    if len(arr) <= 1:\n        return arr\n    pivot = arr[len(arr)//2]\n    left = [x for x in arr if x < pivot]\n    middle = [x for x in arr if x == pivot]\n    right = [x for x in arr if x > pivot]\n    return quicksort(left) + middle + quicksort(right)",
+      "options": ["O(n log n)", "O(n^2)", "O(n)", "O(log n)"],
+      "correct_answer": "O(n log n)",
+      "explanation": "Quicksort médio: log n partições, n comparações por nível. Pior caso O(n^2).",
+      "level": "advanced"
+    },
+    {
+      "id": 15,
+      "code": "def matrix_multiply(A, B):\n    n = len(A)\n    C = [[0] * n for _ in range(n)]\n    for i in range(n):\n        for j in range(n):\n            for k in range(n):\n                C[i][j] += A[i][k] * B[k][j]\n    return C",
+      "options": ["O(n)", "O(n^2)", "O(n^3)", "O(2^n)"],
+      "correct_answer": "O(n^3)",
+      "explanation": "Multiplicação de matrizes padrão: 3 loops aninhados.",
+      "level": "advanced"
+    }
+  ]
+}
