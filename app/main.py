@@ -9,12 +9,17 @@ import os
 app = FastAPI(title="Speed Run Complexidade Quiz API", description="API for a gamified educational app to learn algorithm complexities.")
 
 # File paths
-QUESTIONS_FILE = "questions.json"
-SCORES_FILE = "scores.json"
+# Usa caminho absoluto para a raiz do projeto
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+QUESTIONS_FILE = os.path.join(BASE_DIR, "questions.json")
+SCORES_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "scores.json")
 
 # Load questions
-with open(QUESTIONS_FILE, "r") as f:
-    questions = json.load(f)["questions"]
+try:
+    with open(QUESTIONS_FILE, "r") as f:
+        questions = json.load(f)["questions"]
+except FileNotFoundError:
+    raise Exception(f"Erro: questions.json não encontrado em {QUESTIONS_FILE}")
 
 # Load or initialize scores
 if os.path.exists(SCORES_FILE):
@@ -41,7 +46,6 @@ def get_random_question(level: str = None):
     if not filtered_questions:
         raise HTTPException(status_code=404, detail="No questions found for the specified level.")
     question = random.choice(filtered_questions)
-    # Return question without the correct answer and explanation initially
     return {
         "id": question["id"],
         "code": question["code"],
@@ -52,7 +56,7 @@ def get_random_question(level: str = None):
 @app.post("/submit_answer")
 def submit_answer(submission: AnswerSubmission):
     """
-    Submit an answer for a question, get feedback, and calculate score.
+    Submit an answer, get feedback, and calculate score.
     Score = 100 if correct and time < 30s, decreases by 2 per extra second, min 0. +50 bonus if correct.
     """
     question = next((q for q in questions if q["id"] == submission.question_id), None)
