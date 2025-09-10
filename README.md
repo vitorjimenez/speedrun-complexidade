@@ -1,10 +1,10 @@
-🚀 Speed Run Complexidade Quiz
+# 🚀 Speed Run Complexidade Quiz
 Resumo: Plataforma web educativa e gamificada para ensinar complexidade de algoritmos (Big O, grafos, estruturas de dados) por meio de um quiz interativo. Jogadores respondem até 10 perguntas em 15 segundos cada, com pontuações salvas em um banco de dados e ranking.
 
-🎯 Objetivo
+## 🎯 Objetivo
 O Speed Run de Complexidade é um quiz interativo que ensina conceitos de complexidade de algoritmos de forma divertida. Os jogadores avançam por fases, respondendo perguntas sobre notação Big O, com o objetivo de aprender enquanto competem. A Fase 1 estabelece a base técnica com um endpoint /health para verificar a API.
 
-👨‍💻 Tecnologias Utilizadas
+## 👨‍💻 Tecnologias Utilizadas
 
 Python 3.8+ - Linguagem principal
 FastAPI - Framework para a API
@@ -14,7 +14,7 @@ VS Code - Editor de código
 Virtualenv - Isolamento de dependências
 
 
-🗂️ Estrutura do Projeto
+## 🗂️ Estrutura do Projeto
 📦 speedrun-complexidade
 ├── 📁 app
 │   ├── __init__.py      # Pacote Python
@@ -23,7 +23,7 @@ Virtualenv - Isolamento de dependências
 ├── README.md            # Documentação
 
 
-⚙️ Como Executar
+## ⚙️ Como Executar
 ✅ Rodando Localmente
 
 Clone o repositório:
@@ -61,10 +61,10 @@ Resposta esperada:{"status": "ok"}
 
 
 
-💡 Acesse http://localhost:8000/docs para ver a documentação da API.
+## 💡 Acesse http://localhost:8000/docs para ver a documentação da API.
 
 
-👥 Equipe
+## 👥 Equipe
 
 
 
@@ -90,13 +90,13 @@ Desenvolvedor
 
 
 
-📝 Notas
+## 📝 Notas
 
 Fase 1: Configuração inicial com endpoint /health. As próximas fases adicionarão rotas /launch, /score, banco SQLite e autenticação.
 Diferencial: Quiz gamificado com storytelling para ensinar complexidade de algoritmos de forma acessível! 🎮
 
 
-🐞 Solucionando Problemas
+## 🐞 Solucionando Problemas
 
 
 
