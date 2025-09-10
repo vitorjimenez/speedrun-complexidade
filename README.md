@@ -55,7 +55,9 @@ Resposta esperada:{"status": "ok"}
 👥 Integrantes
 
 Nicolas Sanana
+
 Vinicius Freire Cerqueira
+
 Vitor
 
 📝 Notas
