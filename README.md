@@ -1,28 +1,28 @@
-Speed Run Complexidade Quiz
-Objetivo
-Desenvolver uma plataforma web educativa e gamificada para ensinar conceitos de complexidade de algoritmos (Big O, grafos, estruturas de dados) por meio de um quiz interativo. Os jogadores avançam por fases, respondem até 10 perguntas em 15 segundos cada, e suas pontuações são salvas em um banco de dados, com ranking.
-Stack Utilizada
+🚀 Speed Run Complexidade Quiz
+🎯 Objetivo
+Uma plataforma web gamificada para ensinar complexidade de algoritmos (Big O, grafos, estruturas de dados) com um quiz interativo. Jogadores respondem até 10 perguntas em 15 segundos cada, com pontuações salvas em um banco de dados e ranking.
+🛠️ Stack Utilizada
 
-Linguagem: Python 3.8+
-Framework: FastAPI (backend)
-Ferramentas: Git, GitHub, VS Code
-Ambiente: Virtualenv (venv)
-Testes: Requisições HTTP (ex: curl, navegador)
+Linguagem: 🐍 Python 3.8+
+Framework: ⚡ FastAPI (backend)
+Ferramentas: 📂 Git, GitHub, VS Code
+Ambiente: 🧪 Virtualenv (venv)
+Testes: 🔍 Requisições HTTP (navegador, curl)
 
-Estrutura Inicial do Projeto
+📂 Estrutura do Projeto
 speedrun-complexidade/
 ├── app/
 │   ├── __init__.py  # Pacote Python
-│   ├── main.py      # API FastAPI com endpoint /health
-├── requirements.txt  # Dependências
-├── README.md        # Instruções
+│   ├── main.py      # API com /health
+├── requirements.txt # Dependências
+├── README.md       # Instruções
 
-Como Rodar Localmente
+🚀 Como Rodar Localmente
 Pré-requisitos
 
-Python 3.8+ instalado (python.org).
-Git instalado (git-scm.com).
-VS Code (opcional, para edição).
+Python 3.8+ (python.org)
+Git (git-scm.com)
+VS Code (opcional, code.visualstudio.com)
 
 Passos
 
@@ -33,35 +33,32 @@ cd speedrun-complexidade
 
 Crie e ative o ambiente virtual:
 python -m venv venv
-source venv/Scripts/activate  # Windows (Git Bash)
-# Ou: .\venv\Scripts\Activate.ps1 (PowerShell)
+source venv/Scripts/activate  # Git Bash (Windows)
 
 
 Instale dependências:
 pip install -r requirements.txt
 
 
-Rode o serviço FastAPI:
+Rode o FastAPI:
 uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
 
 
 Teste o endpoint /health:
 
-Abra o navegador ou use curl:curl http://localhost:8000/health
+No navegador: http://localhost:8000/health
+Ou com curl:curl http://localhost:8000/health
 
 
 Resposta esperada:{"status": "ok"}
 
+👥 Integrantes
 
+Nicolas Sanana
+Vinicius Freire Cerqueira
+Vitor
 
+📝 Notas
 
-
-Integrantes do Grupo
-
-Nicolas (substitua pelos nomes reais do grupo, ex: Nicolas Silva)
-[Adicione outros membros]
-
-Notas
-
-Este é o setup inicial (Fase 1). Futuras fases incluirão rotas /launch, /score, banco SQLite, e autenticação.
-O projeto será gamificado, com storytelling para engajar iniciantes em complexidade de algoritmos.
+Fase 1: Setup inicial com endpoint /health. Futuras fases trarão rotas /launch, /score, banco SQLite e autenticação.
+Diferencial: Quiz gamificado com storytelling para ensinar complexidade de forma divertida! 🎮
