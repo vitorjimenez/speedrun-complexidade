@@ -1,34 +1,38 @@
 🚀 Speed Run Complexidade Quiz
+Resumo: Plataforma web educativa e gamificada para ensinar complexidade de algoritmos (Big O, grafos, estruturas de dados) por meio de um quiz interativo. Jogadores respondem até 10 perguntas em 15 segundos cada, com pontuações salvas em um banco de dados e ranking.
+
 🎯 Objetivo
-Uma plataforma web gamificada para ensinar complexidade de algoritmos (Big O, grafos, estruturas de dados) com um quiz interativo. Jogadores respondem até 10 perguntas em 15 segundos cada, com pontuações salvas em um banco de dados e ranking.
-🛠️ Stack Utilizada
+O Speed Run de Complexidade é um quiz interativo que ensina conceitos de complexidade de algoritmos de forma divertida. Os jogadores avançam por fases, respondendo perguntas sobre notação Big O, com o objetivo de aprender enquanto competem. A Fase 1 estabelece a base técnica com um endpoint /health para verificar a API.
 
-Linguagem: 🐍 Python 3.8+
-Framework: ⚡ FastAPI (backend)
-Ferramentas: 📂 Git, GitHub, VS Code
-Ambiente: 🧪 Virtualenv (venv)
-Testes: 🔍 Requisições HTTP (navegador, curl)
+👨‍💻 Tecnologias Utilizadas
 
-📂 Estrutura do Projeto
-speedrun-complexidade/
-├── app/
-│   ├── __init__.py  # Pacote Python
-│   ├── main.py      # API com /health
-├── requirements.txt # Dependências
-├── README.md       # Instruções
+Python 3.8+ - Linguagem principal
+FastAPI - Framework para a API
+Uvicorn - Servidor ASGI
+Git/GitHub - Controle de versão
+VS Code - Editor de código
+Virtualenv - Isolamento de dependências
 
-🚀 Como Rodar Localmente
-Pré-requisitos
 
-Python 3.8+ (python.org)
-Git (git-scm.com)
-VS Code (opcional, code.visualstudio.com)
+🗂️ Estrutura do Projeto
+📦 speedrun-complexidade
+├── 📁 app
+│   ├── __init__.py      # Pacote Python
+│   ├── main.py          # API com endpoint /health
+├── requirements.txt      # Dependências
+├── README.md            # Documentação
 
-Passos
+
+⚙️ Como Executar
+✅ Rodando Localmente
 
 Clone o repositório:
 git clone https://github.com/SEU_USUARIO/speedrun-complexidade.git
 cd speedrun-complexidade
+
+
+Verifique o Python (3.8+ necessário):
+python --version
 
 
 Crie e ative o ambiente virtual:
@@ -40,7 +44,7 @@ Instale dependências:
 pip install -r requirements.txt
 
 
-Rode o FastAPI:
+Rode a API:
 uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
 
 
@@ -52,15 +56,67 @@ Ou com curl:curl http://localhost:8000/health
 
 Resposta esperada:{"status": "ok"}
 
-## 👥 Equipe
 
-| Nome | GitHub | Função |
-|------|--------|--------|
-| Nicolas Santana | [@nicolas](https://github.com/nicolassantana42) | Gerente de Projeto |
-| Vinicius Cerqueira | [@vinicius](https://github.com/ViniCerqueira/ViniCerqueira) | Desenvolvedor Backend |
-| Vitor Jimenez | [@vitorjimenez](https://github.com/vitorjimenez) | Desenvolvedor Frontend |
+
+
+
+
+💡 Acesse http://localhost:8000/docs para ver a documentação da API.
+
+
+👥 Equipe
+
+
+
+Nome
+GitHub
+Função
+
+
+
+Nicolas Silva
+ [@nicolas](https://github.com/nicolassantana42)
+Desenvolvedor
+
+
+Vinicius Cerqueira
+[@vinicius](https://github.com/ViniCerqueira/ViniCerqueira)
+Desenvolvedor
+
+
+Vitor Jimenez
+[@vitorjimenez](https://github.com/vitorjimenez)
+Desenvolvedor
+
+
 
 📝 Notas
 
-Fase 1: Setup inicial com endpoint /health. Futuras fases trarão rotas /launch, /score, banco SQLite e autenticação.
-Diferencial: Quiz gamificado com storytelling para ensinar complexidade de forma divertida! 🎮
+Fase 1: Configuração inicial com endpoint /health. As próximas fases adicionarão rotas /launch, /score, banco SQLite e autenticação.
+Diferencial: Quiz gamificado com storytelling para ensinar complexidade de algoritmos de forma acessível! 🎮
+
+
+🐞 Solucionando Problemas
+
+
+
+Problema
+Solução
+
+
+
+"uvicorn: command not found"
+Ative o venv e reinstale: pip install -r requirements.txt
+
+
+Porta 8000 ocupada
+Use outra porta: uvicorn app.main:app --host 0.0.0.0 --port 8001
+
+
+Erro no Git
+Configure: git config --global user.name "Seu Nome" e user.email
+
+
+
+📄 Licença
+MIT License — use, estude e adapte este projeto livremente.
