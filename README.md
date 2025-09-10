@@ -52,13 +52,13 @@ Ou com curl:curl http://localhost:8000/health
 
 Resposta esperada:{"status": "ok"}
 
-👥 Integrantes
+## 👥 Equipe
 
-Nicolas Sanana
-
-Vinicius Freire Cerqueira
-
-Vitor
+| Nome | GitHub | Função |
+|------|--------|--------|
+| Nicolas Santana | [@nicolas](https://github.com/nicolassantana42) | Gerente de Projeto |
+| Vinicius Cerqueira | [@vinicius](https://github.com/ViniCerqueira/ViniCerqueira) | Desenvolvedor Backend |
+| Vitor Jimenez | [@vitorjimenez](https://github.com/vitorjimenez) | Desenvolvedor Frontend |
 
 📝 Notas
 
