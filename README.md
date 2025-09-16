@@ -37,7 +37,7 @@ python --version
 
 ## Crie e ative o ambiente virtual:
 python -m venv venv
-source venv/Scripts/activate  # Git Bash (Windows) ou
+source venv/Scripts/activate  # Git Bash (Windows) 
 
 
 ### Instale dependências:
