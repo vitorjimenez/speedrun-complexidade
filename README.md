@@ -44,6 +44,8 @@ python -m venv venv
 source venv/Scripts/activate
 
 
+
+
 Instale dependências:
 pip install -r requirements.txt
 
