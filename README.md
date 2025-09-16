@@ -35,26 +35,20 @@ Verifique o Python (3.8+ necessário):
 python --version
 
 
-Crie e ative o ambiente virtual:
+## Crie e ative o ambiente virtual:
 python -m venv venv
 source venv/Scripts/activate  # Git Bash (Windows) ou
 
-python -m venv venv
 
-source venv/Scripts/activate
-
-
-
-
-Instale dependências:
+### Instale dependências:
 pip install -r requirements.txt
 
 
-Rode a API:
+## Rode a API:
 uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
 
 
-Teste o endpoint /health:
+## Teste o endpoint /health:
 
 No navegador: http://localhost:8000/health
 Ou com curl:curl http://localhost:8000/health
