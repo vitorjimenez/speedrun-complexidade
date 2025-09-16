@@ -39,7 +39,7 @@ python --version
 python -m venv venv
 
 
-source venv/Scripts/activate  # Git Bash (Windows) 
+source venv/Scripts/activate  no Git Bash (Windows) 
 
 
 ### Instale dependências:
