@@ -1,0 +1,53 @@
+{
+  "tables": [
+    {
+      "name": "Jogador",
+      "columns": [
+        {"name": "id_jogador", "type": "INTEGER", "constraints": ["PRIMARY KEY"]},
+        {"name": "nome", "type": "TEXT", "constraints": ["NOT NULL"]}
+      ]
+    },
+    {
+      "name": "Partida",
+      "columns": [
+        {"name": "id_partida", "type": "INTEGER", "constraints": ["PRIMARY KEY"]},
+        {"name": "data", "type": "DATETIME", "constraints": ["NOT NULL"]},
+        {"name": "id_jogador", "type": "INTEGER", "constraints": ["FOREIGN KEY REFERENCES Jogador(id_jogador)"]}
+      ]
+    },
+    {
+      "name": "Pergunta",
+      "columns": [
+        {"name": "id_pergunta", "type": "INTEGER", "constraints": ["PRIMARY KEY"]},
+        {"name": "texto", "type": "TEXT", "constraints": ["NOT NULL"]},
+        {"name": "opcoes", "type": "TEXT", "constraints": ["NOT NULL"]},
+        {"name": "resposta_correta", "type": "TEXT", "constraints": ["NOT NULL"]}
+      ]
+    },
+    {
+      "name": "Resposta",
+      "columns": [
+        {"name": "id_resposta", "type": "INTEGER", "constraints": ["PRIMARY KEY"]},
+        {"name": "id_partida", "type": "INTEGER", "constraints": ["FOREIGN KEY REFERENCES Partida(id_partida)"]},
+        {"name": "id_pergunta", "type": "INTEGER", "constraints": ["FOREIGN KEY REFERENCES Pergunta(id_pergunta)"]},
+        {"name": "resposta_dada", "type": "TEXT", "constraints": ["NOT NULL"]},
+        {"name": "correta", "type": "BOOLEAN", "constraints": ["NOT NULL"]}
+      ]
+    },
+    {
+      "name": "Pontuacao",
+      "columns": [
+        {"name": "id_pontuacao", "type": "INTEGER", "constraints": ["PRIMARY KEY"]},
+        {"name": "id_partida", "type": "INTEGER", "constraints": ["FOREIGN KEY REFERENCES Partida(id_partida)"]},
+        {"name": "pontos", "type": "INTEGER", "constraints": ["NOT NULL"]},
+        {"name": "tempo_total", "type": "REAL", "constraints": ["NOT NULL"]}
+      ]
+    }
+  ],
+  "relationships": [
+    {"from": "Partida.id_jogador", "to": "Jogador.id_jogador", "type": "1:N"},
+    {"from": "Resposta.id_partida", "to": "Partida.id_partida", "type": "1:N"},
+    {"from": "Resposta.id_pergunta", "to": "Pergunta.id_pergunta", "type": "1:N"},
+    {"from": "Pontuacao.id_partida", "to": "Partida.id_partida", "type": "1:1"}
+  ]
+}
