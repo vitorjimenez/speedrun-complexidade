@@ -13,7 +13,7 @@ app = FastAPI(title="Speed Run Complexidade Quiz API", description="API para um 
 # CONFIGURAÇÃO CORS
 # ===============================================
 origins = [
-    "*", # Permite todas as origens para desenvolvimento local.
+    "*", 
     "http://localhost",
     "http://localhost:8080", 
 ]
@@ -103,7 +103,6 @@ class ScoreSubmission(BaseModel):
 def health_check():
     return {"status": "ok"}
 
-# ENDPOINT PARA O QUIZ (SEM RESPOSTAS CORRETAS)
 @app.get("/questions")
 def get_questions():
     """Retorna o código e opções das perguntas (sem resposta correta) para o frontend jogar."""
@@ -121,7 +120,6 @@ def get_questions():
     conn.close()
     return {"questions": questions_list}
 
-# NOVO ENDPOINT: RETORNA PERGUNTAS COM RESPOSTA CORRETA PARA REVISÃO
 @app.get("/questions_full")
 def get_questions_full():
     """Retorna todas as perguntas, incluindo a resposta correta, para a tela de resumo."""
@@ -205,3 +203,47 @@ def get_results():
     results = [{"player_name": row[0], "data": row[1], "pontos": row[2], "tempo_total": row[3]} for row in cursor.fetchall()]
     conn.close()
     return results
+
+# ===============================================
+# NOVO ENDPOINT DE ADMINISTRAÇÃO: DELETAR JOGADOR
+# ===============================================
+@app.delete("/player/{player_name}")
+def delete_player(player_name: str):
+    """Deleta um jogador e todos os seus registros de partidas, pontuações e respostas."""
+    conn = sqlite3.connect(DB_PATH)
+    cursor = conn.cursor()
+    
+    # 1. Encontrar o id_jogador
+    cursor.execute("SELECT id_jogador FROM Jogador WHERE nome = ?", (player_name,))
+    result = cursor.fetchone()
+    
+    if not result:
+        conn.close()
+        raise HTTPException(status_code=404, detail=f"Jogador '{player_name}' não encontrado.")
+    
+    id_jogador = result[0]
+    
+    # 2. Encontrar todos os IDs de partida do jogador
+    cursor.execute("SELECT id_partida FROM Partida WHERE id_jogador = ?", (id_jogador,))
+    partida_ids = [row[0] for row in cursor.fetchall()]
+    
+    if partida_ids:
+        # Cria uma string com placeholders (?, ?, ?) para a cláusula IN
+        placeholders = ','.join('?' for _ in partida_ids)
+        
+        # 3. Deletar Pontuações (depende de Partida)
+        cursor.execute(f"DELETE FROM Pontuacao WHERE id_partida IN ({placeholders})", partida_ids)
+        
+        # 4. Deletar Respostas (depende de Partida)
+        cursor.execute(f"DELETE FROM Resposta WHERE id_partida IN ({placeholders})", partida_ids)
+        
+        # 5. Deletar Partidas
+        cursor.execute(f"DELETE FROM Partida WHERE id_partida IN ({placeholders})", partida_ids)
+    
+    # 6. Deletar o Jogador
+    cursor.execute("DELETE FROM Jogador WHERE id_jogador = ?", (id_jogador,))
+    
+    conn.commit()
+    conn.close()
+    
+    return {"message": f"Jogador '{player_name}' e todos os seus dados foram removidos com sucesso."}
