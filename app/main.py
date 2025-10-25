@@ -1,4 +1,5 @@
 from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 import sqlite3
 import json
@@ -7,6 +8,24 @@ import os
 from datetime import datetime
 
 app = FastAPI(title="Speed Run Complexidade Quiz API", description="API para um quiz educativo sobre complexidade de algoritmos.")
+
+# ===============================================
+# CONFIGURAÇÃO CORS
+# ===============================================
+origins = [
+    "*", # Permite todas as origens para desenvolvimento local.
+    "http://localhost",
+    "http://localhost:8080", 
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+# ===============================================
 
 # Caminhos dos arquivos
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -84,6 +103,44 @@ class ScoreSubmission(BaseModel):
 def health_check():
     return {"status": "ok"}
 
+# ENDPOINT PARA O QUIZ (SEM RESPOSTAS CORRETAS)
+@app.get("/questions")
+def get_questions():
+    """Retorna o código e opções das perguntas (sem resposta correta) para o frontend jogar."""
+    conn = sqlite3.connect(DB_PATH)
+    cursor = conn.cursor()
+    cursor.execute("SELECT id_pergunta, texto, opcoes FROM Pergunta")
+    
+    questions_list = []
+    for row in cursor.fetchall():
+        questions_list.append({
+            "id_pergunta": row[0],
+            "code": row[1],
+            "options": row[2].split(","), 
+        })
+    conn.close()
+    return {"questions": questions_list}
+
+# NOVO ENDPOINT: RETORNA PERGUNTAS COM RESPOSTA CORRETA PARA REVISÃO
+@app.get("/questions_full")
+def get_questions_full():
+    """Retorna todas as perguntas, incluindo a resposta correta, para a tela de resumo."""
+    conn = sqlite3.connect(DB_PATH)
+    cursor = conn.cursor()
+    cursor.execute("SELECT id_pergunta, texto, opcoes, resposta_correta FROM Pergunta")
+    
+    questions_list = []
+    for row in cursor.fetchall():
+        questions_list.append({
+            "id_pergunta": row[0],
+            "code": row[1],
+            "options": row[2].split(","),
+            "correct_answer": row[3],
+        })
+    conn.close()
+    return {"questions": questions_list}
+
+
 @app.post("/launch")
 def launch_game():
     session_id = str(uuid.uuid4())
@@ -143,6 +200,7 @@ def get_results():
         FROM Jogador J
         JOIN Partida P ON J.id_jogador = P.id_jogador
         JOIN Pontuacao Po ON P.id_partida = Po.id_partida
+        ORDER BY Po.pontos DESC, Po.tempo_total ASC
     """)
     results = [{"player_name": row[0], "data": row[1], "pontos": row[2], "tempo_total": row[3]} for row in cursor.fetchall()]
     conn.close()

@@ -1,0 +1,296 @@
+// Configurações Globais
+const API_BASE_URL = "http://localhost:8000";
+const MAX_TIME_PER_QUESTION = 15; // Segundos
+
+// Elementos do DOM
+const startScreen = document.getElementById('start-screen');
+const quizScreen = document.getElementById('quiz-screen');
+const scoreScreen = document.getElementById('score-screen');
+const reviewScreen = document.getElementById('review-screen'); // NOVO
+const playerNameInput = document.getElementById('player-name');
+const startQuizBtn = document.getElementById('start-quiz-btn');
+const errorMessage = document.getElementById('error-message');
+const questionCounter = document.getElementById('question-counter');
+const timerDisplay = document.getElementById('timer');
+const codeSnippet = document.getElementById('code-snippet');
+const optionsContainer = document.getElementById('options-container');
+const finalScoreDisplay = document.getElementById('final-score');
+const reviewAnswersBtn = document.getElementById('review-answers-btn'); // NOVO
+const reviewResultsContainer = document.getElementById('review-results-container'); // NOVO
+
+// Variáveis de Estado do Jogo
+let allQuestions = []; // Perguntas que o jogador respondeu (limitadas a 5)
+let fullQuestionDetails = {}; // Todos os detalhes da pergunta, incluindo a resposta correta (usado na revisão)
+let currentQuestionIndex = 0;
+let answersLog = []; // {id_pergunta, resposta_dada, is_correct: true/false}
+let totalGameTime = 0;
+let countdown;
+let questionStartTime; 
+
+// Funções de Utilidade
+function showScreen(screen) {
+    startScreen.classList.add('hidden');
+    quizScreen.classList.add('hidden');
+    scoreScreen.classList.add('hidden');
+    reviewScreen.classList.add('hidden'); // NOVO
+    screen.classList.remove('hidden');
+}
+
+function updateTimerDisplay(time) {
+    timerDisplay.textContent = time.toFixed(2) + 's';
+}
+
+function startTimer() {
+    questionStartTime = performance.now();
+    let timeLeft = MAX_TIME_PER_QUESTION;
+    
+    updateTimerDisplay(timeLeft);
+
+    countdown = setInterval(() => {
+        const elapsedTime = (performance.now() - questionStartTime) / 1000;
+        timeLeft = Math.max(0, MAX_TIME_PER_QUESTION - elapsedTime);
+        
+        // Alerta visual de tempo acabando
+        if (timeLeft <= 5) {
+            timerDisplay.classList.add('text-yellow-500');
+            timerDisplay.classList.remove('text-red-400');
+        } else {
+            timerDisplay.classList.remove('text-yellow-500');
+            timerDisplay.classList.add('text-red-400');
+        }
+
+        if (timeLeft <= 0) {
+            clearInterval(countdown);
+            handleAnswerSubmission(null); // Submissão automática em caso de tempo esgotado
+        } else {
+            updateTimerDisplay(timeLeft);
+        }
+    }, 50); // Atualiza o cronômetro a cada 50ms
+}
+
+function stopTimer() {
+    clearInterval(countdown);
+    const endTime = performance.now();
+    const elapsedTime = (endTime - questionStartTime) / 1000;
+    
+    // Calcula o tempo gasto, limitado ao máximo
+    const timeSpent = Math.min(elapsedTime, MAX_TIME_PER_QUESTION);
+    totalGameTime += timeSpent;
+    
+    // Reseta a cor do timer
+    timerDisplay.classList.remove('text-yellow-500');
+    timerDisplay.classList.add('text-red-400');
+    
+    return timeSpent;
+}
+
+// Lógica Principal do Quiz
+async function fetchQuestions() {
+    try {
+        // Busca TODAS as perguntas para fins de revisão (usando o novo endpoint)
+        const fullResponse = await fetch(`${API_BASE_URL}/questions_full`); 
+        if (!fullResponse.ok) {
+            throw new Error('API indisponível ou erro ao buscar perguntas completas.');
+        }
+        const fullData = await fullResponse.json();
+        
+        // Cria um mapa de IDs para facilitar a busca de respostas corretas
+        fullQuestionDetails = fullData.questions.reduce((map, q) => {
+            map[q.id_pergunta] = q;
+            return map;
+        }, {});
+
+        // Embaralha e limita as perguntas a 5 para o quiz
+        allQuestions = fullData.questions
+            .sort(() => Math.random() - 0.5)
+            .slice(0, 5)
+            .map(q => ({
+                id_pergunta: q.id_pergunta,
+                code: q.code,
+                options: q.options
+            })); // Mapeia para remover a resposta correta da versão de jogo
+        
+        if (allQuestions.length === 0) {
+            throw new Error('Nenhuma pergunta disponível no banco de dados.');
+        }
+    } catch (error) {
+        console.error("Erro ao buscar perguntas:", error);
+        errorMessage.textContent = error.message;
+        errorMessage.classList.remove('hidden');
+        allQuestions = [];
+    }
+}
+
+function renderQuestion() {
+    if (currentQuestionIndex >= allQuestions.length) {
+        submitScore(); // Todas as perguntas respondidas
+        return;
+    }
+
+    const question = allQuestions[currentQuestionIndex];
+    
+    // Atualiza contador
+    questionCounter.textContent = `Pergunta ${currentQuestionIndex + 1} de ${allQuestions.length}`;
+    
+    // Atualiza o código e re-highlight
+    codeSnippet.textContent = question.code;
+    hljs.highlightElement(codeSnippet);
+    
+    // Atualiza opções
+    optionsContainer.innerHTML = '';
+    const shuffledOptions = question.options.sort(() => Math.random() - 0.5);
+
+    shuffledOptions.forEach(option => {
+        const button = document.createElement('button');
+        button.className = 'w-full text-left p-4 bg-gray-700 hover:bg-teal-600 rounded-lg font-medium transition duration-200 shadow-md transform hover:scale-[1.02]';
+        button.textContent = option;
+        button.setAttribute('data-answer', option);
+        button.onclick = () => handleAnswerSubmission(option);
+        optionsContainer.appendChild(button);
+    });
+    
+    startTimer();
+    showScreen(quizScreen);
+}
+
+function handleAnswerSubmission(selectedAnswer) {
+    const question = allQuestions[currentQuestionIndex];
+    const correctAnswer = fullQuestionDetails[question.id_pergunta].correct_answer;
+    
+    // Pausa o cronômetro e acumula o tempo
+    stopTimer();
+    
+    // Determina a resposta dada (TIME_OUT se nulo) e a correção
+    const answerGiven = selectedAnswer || 'TIME_OUT';
+    const isCorrect = (answerGiven !== 'TIME_OUT' && answerGiven === correctAnswer);
+    
+    // Registra a resposta COMPLETA para a log de revisão
+    answersLog.push({
+        id_pergunta: question.id_pergunta,
+        resposta_dada: answerGiven,
+        is_correct: isCorrect
+    });
+    
+    // Avança para a próxima pergunta
+    currentQuestionIndex++;
+    renderQuestion();
+}
+
+async function submitScore() {
+    showScreen(scoreScreen);
+    
+    const playerName = playerNameInput.value.trim() || 'Anônimo';
+    
+    // A API só precisa das respostas dadas, e não de TIME_OUT para pontuação
+    const answersToSubmit = answersLog
+        .filter(a => a.resposta_dada !== 'TIME_OUT')
+        .map(a => ({ id_pergunta: a.id_pergunta, resposta_dada: a.resposta_dada }));
+    
+    const finalScoreSubmission = {
+        player_name: playerName,
+        answers: answersToSubmit,
+        tempo_total: totalGameTime
+    };
+
+    try {
+        const response = await fetch(`${API_BASE_URL}/score`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(finalScoreSubmission)
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            throw new Error(data.detail || 'Erro desconhecido ao registrar pontuação.');
+        }
+
+        finalScoreDisplay.textContent = data.total_score;
+        
+    } catch (error) {
+        console.error("Erro na submissão da pontuação:", error);
+        finalScoreDisplay.textContent = 'ERRO!';
+        alert(`Não foi possível registrar a pontuação. ${error.message}`);
+    }
+}
+
+// LÓGICA DA TELA DE REVISÃO (NOVA)
+function renderReviewScreen() {
+    showScreen(reviewScreen);
+    reviewResultsContainer.innerHTML = '';
+    
+    answersLog.forEach((logEntry, index) => {
+        const questionDetail = fullQuestionDetails[logEntry.id_pergunta];
+        
+        if (!questionDetail) return;
+
+        const statusText = logEntry.is_correct ? 'CORRETA' : 'ERRADA';
+        const answerGivenText = logEntry.resposta_dada === 'TIME_OUT' ? 'Tempo Esgotado' : logEntry.resposta_dada;
+
+        const reviewBlock = document.createElement('div');
+        reviewBlock.className = `p-6 rounded-xl shadow-lg bg-opacity-20 border-l-4 ${logEntry.is_correct ? 'border-green-400 bg-green-900/50' : 'border-red-400 bg-red-900/50'}`;
+        reviewBlock.innerHTML = `
+            <h3 class="text-xl font-bold mb-3 text-white">Pergunta ${index + 1}: <span class="${logEntry.is_correct ? 'text-green-400' : 'text-red-400'}">${statusText}</span></h3>
+            
+            <div class="bg-gray-900 p-3 rounded-lg mb-3">
+                <pre><code class="language-python">${questionDetail.code}</code></pre>
+            </div>
+
+            <p class="text-lg font-semibold text-gray-300">Sua Resposta: <span class="${logEntry.is_correct ? 'text-green-400' : 'text-red-400'} font-bold">${answerGivenText}</span></p>
+            <p class="text-lg font-semibold text-white mt-2">Resposta Correta: <span class="text-teal-400 font-bold">${questionDetail.correct_answer}</span></p>
+        `;
+        reviewResultsContainer.appendChild(reviewBlock);
+        
+        // Aplica o highlight.js no novo código
+        reviewBlock.querySelectorAll('code').forEach((el) => {
+            hljs.highlightElement(el);
+        });
+    });
+}
+
+// Inicialização da Partida
+startQuizBtn.addEventListener('click', async () => {
+    const playerName = playerNameInput.value.trim();
+    if (!playerName) {
+        errorMessage.textContent = 'Por favor, digite seu nome para iniciar.';
+        errorMessage.classList.remove('hidden');
+        return;
+    }
+    
+    errorMessage.classList.add('hidden');
+    
+    // 1. Iniciar a partida na API 
+    try {
+        const launchResponse = await fetch(`${API_BASE_URL}/launch`, { method: 'POST' });
+        if (!launchResponse.ok) {
+             throw new Error('Falha ao iniciar a partida (Endpoint /launch).');
+        }
+    } catch (error) {
+        errorMessage.textContent = 'Erro de conexão com a API. Certifique-se de que o servidor está rodando em http://localhost:8000.';
+        errorMessage.classList.remove('hidden');
+        return;
+    }
+
+    // 2. Resetar o estado do jogo e buscar as perguntas
+    currentQuestionIndex = 0;
+    answersLog = [];
+    totalGameTime = 0;
+    await fetchQuestions();
+
+    if (allQuestions.length > 0) {
+        renderQuestion();
+    } else {
+        errorMessage.textContent = 'Não foi possível carregar as perguntas. Verifique o console para mais detalhes.';
+        errorMessage.classList.remove('hidden');
+    }
+});
+
+// Listener do novo botão
+reviewAnswersBtn.addEventListener('click', renderReviewScreen);
+ Garante que a tela inicial é mostrada ao carregar
+showScreen(startScreen);
+
+Aplica o highlight.js na inicialização (se houver código estático)
+hljs.highlightAll();
