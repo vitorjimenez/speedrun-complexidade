@@ -1,4 +1,4 @@
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Header, Depends
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 import sqlite3
@@ -27,19 +27,28 @@ app.add_middleware(
 )
 # ===============================================
 
+# CONSTANTE E DEPENDÊNCIA DE AUTENTICAÇÃO
+API_TOKEN = os.environ.get("API_TOKEN", "super-secret-complexidade-token")
+
+async def verify_token(x_api_token: str = Header(..., alias="X-API-Token")):
+    """Verifica se o token X-API-Token é válido. Retorna 401 se inválido."""
+    if x_api_token != API_TOKEN:
+        raise HTTPException(status_code=401, detail="Não Autorizado: Token X-API-Token inválido.")
+    pass
+
 # Caminhos dos arquivos
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DB_PATH = os.path.join(BASE_DIR, "speedrun.db")
 QUESTIONS_FILE = os.path.join(BASE_DIR, "questions.json")
 
-# Carregar perguntas
+# Carregar perguntas (lógica omitida para brevidade)
 try:
     with open(QUESTIONS_FILE, "r") as f:
         questions = json.load(f)["questions"]
 except FileNotFoundError:
     raise Exception(f"Erro: questions.json não encontrado em {QUESTIONS_FILE}")
 
-# Configurar banco SQLite
+# Configurar banco SQLite (REMOVIDA A COLUNA espaço_correto DO ESQUEMA)
 def init_db():
     conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
@@ -58,7 +67,7 @@ def init_db():
             id_pergunta INTEGER PRIMARY KEY,
             texto TEXT NOT NULL,
             opcoes TEXT NOT NULL,
-            resposta_correta TEXT NOT NULL
+            resposta_correta TEXT NOT NULL  
         );
         CREATE TABLE IF NOT EXISTS Resposta (
             id_resposta INTEGER PRIMARY KEY,
@@ -77,7 +86,7 @@ def init_db():
             FOREIGN KEY (id_partida) REFERENCES Partida(id_partida)
         );
     """)
-    # Inserir perguntas no banco (se vazio)
+    # Inserir perguntas no banco (INSERT SIMPLIFICADO)
     cursor.execute("SELECT COUNT(*) FROM Pergunta")
     if cursor.fetchone()[0] == 0:
         for q in questions:
@@ -101,9 +110,11 @@ class ScoreSubmission(BaseModel):
 
 @app.get("/health")
 def health_check():
-    return {"status": "ok"}
+    return {"status": "ok"} 
 
-@app.get("/questions")
+# ROTAS PROTEGIDAS PELA AUTENTICAÇÃO
+
+@app.get("/questions", dependencies=[Depends(verify_token)])
 def get_questions():
     """Retorna o código e opções das perguntas (sem resposta correta) para o frontend jogar."""
     conn = sqlite3.connect(DB_PATH)
@@ -120,11 +131,12 @@ def get_questions():
     conn.close()
     return {"questions": questions_list}
 
-@app.get("/questions_full")
+@app.get("/questions_full", dependencies=[Depends(verify_token)])
 def get_questions_full():
-    """Retorna todas as perguntas, incluindo a resposta correta, para a tela de resumo."""
+    """Retorna todas as perguntas, incluindo a complexidade de tempo, para a tela de resumo/dica."""
     conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
+    # SELECT MODIFICADO PARA PEGAR APENAS A COMPLEXIDADE DE TEMPO (resposta_correta)
     cursor.execute("SELECT id_pergunta, texto, opcoes, resposta_correta FROM Pergunta")
     
     questions_list = []
@@ -133,23 +145,22 @@ def get_questions_full():
             "id_pergunta": row[0],
             "code": row[1],
             "options": row[2].split(","),
-            "correct_answer": row[3],
+            "correct_answer": row[3], # Complexidade de Tempo
         })
     conn.close()
     return {"questions": questions_list}
 
 
-@app.post("/launch")
+@app.post("/launch", dependencies=[Depends(verify_token)])
 def launch_game():
     session_id = str(uuid.uuid4())
     return {"session_id": session_id, "message": "Partida iniciada"}
 
-@app.post("/score")
+@app.post("/score", dependencies=[Depends(verify_token)])
 def submit_score(submission: ScoreSubmission):
     conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
     
-    # Criar ou buscar jogador
     cursor.execute("SELECT id_jogador FROM Jogador WHERE nome = ?", (submission.player_name,))
     result = cursor.fetchone()
     if result:
@@ -158,11 +169,9 @@ def submit_score(submission: ScoreSubmission):
         cursor.execute("INSERT INTO Jogador (nome) VALUES (?)", (submission.player_name,))
         id_jogador = cursor.lastrowid
     
-    # Criar partida
     cursor.execute("INSERT INTO Partida (data, id_jogador) VALUES (?, ?)", (datetime.now(), id_jogador))
     id_partida = cursor.lastrowid
     
-    # Verificar respostas e calcular pontos
     pontos = 0
     for answer in submission.answers:
         cursor.execute("SELECT resposta_correta FROM Pergunta WHERE id_pergunta = ?", (answer.id_pergunta,))
@@ -177,11 +186,9 @@ def submit_score(submission: ScoreSubmission):
             (id_partida, answer.id_pergunta, answer.resposta_dada, is_correct)
         )
     
-    # Bônus por tempo (máx. 75s para 5 perguntas)
     tempo_bonus = max(0, 75 - submission.tempo_total)
     pontos += int(tempo_bonus)
     
-    # Salvar pontuação
     cursor.execute("INSERT INTO Pontuacao (id_partida, pontos, tempo_total) VALUES (?, ?, ?)",
                    (id_partida, pontos, submission.tempo_total))
     
@@ -189,7 +196,7 @@ def submit_score(submission: ScoreSubmission):
     conn.close()
     return {"message": "Pontuação registrada", "total_score": pontos}
 
-@app.get("/results")
+@app.get("/results", dependencies=[Depends(verify_token)])
 def get_results():
     conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
@@ -204,16 +211,12 @@ def get_results():
     conn.close()
     return results
 
-# ===============================================
-# NOVO ENDPOINT DE ADMINISTRAÇÃO: DELETAR JOGADOR
-# ===============================================
-@app.delete("/player/{player_name}")
+@app.delete("/player/{player_name}", dependencies=[Depends(verify_token)])
 def delete_player(player_name: str):
     """Deleta um jogador e todos os seus registros de partidas, pontuações e respostas."""
     conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
     
-    # 1. Encontrar o id_jogador
     cursor.execute("SELECT id_jogador FROM Jogador WHERE nome = ?", (player_name,))
     result = cursor.fetchone()
     
@@ -223,24 +226,16 @@ def delete_player(player_name: str):
     
     id_jogador = result[0]
     
-    # 2. Encontrar todos os IDs de partida do jogador
     cursor.execute("SELECT id_partida FROM Partida WHERE id_jogador = ?", (id_jogador,))
     partida_ids = [row[0] for row in cursor.fetchall()]
     
     if partida_ids:
-        # Cria uma string com placeholders (?, ?, ?) para a cláusula IN
         placeholders = ','.join('?' for _ in partida_ids)
         
-        # 3. Deletar Pontuações (depende de Partida)
         cursor.execute(f"DELETE FROM Pontuacao WHERE id_partida IN ({placeholders})", partida_ids)
-        
-        # 4. Deletar Respostas (depende de Partida)
         cursor.execute(f"DELETE FROM Resposta WHERE id_partida IN ({placeholders})", partida_ids)
-        
-        # 5. Deletar Partidas
         cursor.execute(f"DELETE FROM Partida WHERE id_partida IN ({placeholders})", partida_ids)
     
-    # 6. Deletar o Jogador
     cursor.execute("DELETE FROM Jogador WHERE id_jogador = ?", (id_jogador,))
     
     conn.commit()

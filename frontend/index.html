@@ -5,12 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Speed Run Complexidade Quiz</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
     <link rel="stylesheet" href="style.css">
 </head>
 <body class="bg-gray-900 text-white min-h-screen flex items-center justify-center p-4">
-    <div id="app" class="w-full max-w-2xl bg-gray-800 rounded-xl shadow-2xl p-6 md:p-10">
+    <div id="app" class="w-full max-w-5xl bg-gray-800 rounded-xl shadow-2xl p-6 md:p-10">
         
         <header class="text-center mb-8">
             <h1 class="text-4xl font-extrabold text-teal-400">🚀 Speed Run Complexidade</h1>
@@ -38,17 +39,28 @@
                 </div>
             </div>
 
-            <div id="code-snippet-container" class="bg-gray-900 p-4 rounded-lg shadow-inner mb-6">
-                <pre><code id="code-snippet" class="language-python"># O código da pergunta aparece aqui</code></pre>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div>
+                    <h3 class="text-xl font-semibold mb-3 text-gray-300">Trecho de Código:</h3>
+                    <div id="code-snippet-container" class="bg-gray-900 p-4 rounded-lg shadow-inner mb-6 h-64 overflow-y-auto">
+                        <pre><code id="code-snippet" class="language-python"># O código da pergunta aparece aqui</code></pre>
+                    </div>
+                </div>
+
+                <div>
+                    <h3 class="text-xl font-semibold mb-3 text-purple-400">Dica Visual (Complexidade de Tempo)</h3>
+                    <div class="bg-gray-700 p-3 rounded-lg h-64">
+                        <canvas id="quizTimeChart"></canvas>
+                    </div>
+                </div>
             </div>
-
-            <p class="text-xl font-semibold mb-4 text-gray-300">Qual é a complexidade de tempo (Big O) do código acima?</p>
-
+            
+            <p class="text-xl font-semibold mb-4 text-gray-300 mt-6">Qual é a complexidade de Tempo (Big O) do código?</p>
             <div id="options-container" class="space-y-4">
                 </div>
             
         </div>
-
+        
         <div id="score-screen" class="hidden text-center">
             <h2 class="text-3xl font-bold mb-4">Fim do Quiz! 🎉</h2>
             <p class="text-xl text-gray-300 mb-6">Sua Pontuação Total:</p>

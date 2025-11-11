@@ -5,6 +5,7 @@
       "code": "def func(arr):\n    for i in arr:\n        print(i)",
       "options": ["O(1)", "O(n)", "O(n^2)", "O(log n)"],
       "correct_answer": "O(n)",
+      "space_complexity": "O(1)",
       "level": "beginner"
     },
     {
@@ -12,6 +13,7 @@
       "code": "def func():\n    print('Hello')",
       "options": ["O(1)", "O(n)", "O(n^2)", "O(log n)"],
       "correct_answer": "O(1)",
+      "space_complexity": "O(1)",
       "level": "beginner"
     },
     {
@@ -19,6 +21,7 @@
       "code": "def func(arr):\n    for i in arr:\n        for j in arr:\n            print(i, j)",
       "options": ["O(1)", "O(n)", "O(n^2)", "O(log n)"],
       "correct_answer": "O(n^2)",
+      "space_complexity": "O(1)",
       "level": "beginner"
     },
     {
@@ -26,6 +29,7 @@
       "code": "def binary_search(arr, target):\n    low, high = 0, len(arr)-1\n    while low <= high:\n        mid = (low + high) // 2\n        if arr[mid] == target:\n            return mid\n        elif arr[mid] < target:\n            low = mid + 1\n        else:\n            high = mid - 1",
       "options": ["O(1)", "O(n)", "O(log n)", "O(n log n)"],
       "correct_answer": "O(log n)",
+      "space_complexity": "O(1)",
       "level": "intermediate"
     },
     {
@@ -33,6 +37,7 @@
       "code": "def merge_sort(arr):\n    if len(arr) <= 1:\n        return arr\n    mid = len(arr) // 2\n    left = merge_sort(arr[:mid])\n    right = merge_sort(arr[mid:])\n    return merge(left, right)",
       "options": ["O(n)", "O(n^2)", "O(n log n)", "O(2^n)"],
       "correct_answer": "O(n log n)",
+      "space_complexity": "O(n)",
       "level": "intermediate"
     }
   ]
