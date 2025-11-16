@@ -153,11 +153,17 @@ http://localhost:8000/index.html
 
 ### Rotas Principais
 Rota,Método,Função,Observação
+
 /health,GET,Verifica status da API,Requer API_TOKEN
+
 /launch,POST,Inicia partida,Retorna session_id
+
 /score,POST,Envia respostas,Calcula pontuação e salva ranking
+
 /results,GET,Ranking,Lista os jogadores
+
 /questions,GET,Perguntas (frontend),Não inclui a resposta correta
+
 /questions_full,GET,Perguntas completas,Rota administrativa para revisão
 
 Variável,Valor Padrão,Uso
