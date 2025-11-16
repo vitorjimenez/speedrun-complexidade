@@ -149,9 +149,12 @@ uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
 ```
 
 ### 5. Abra o Jogo no Navegador
+```bash
 http://localhost:8000/index.html
+```
 
 ### 🔑 Rotas da API (FastAPI)
+```bash
 Rota,Método,Função,Observação
 
 /health,GET,Verifica status da API,Requer API_TOKEN
@@ -165,10 +168,13 @@ Rota,Método,Função,Observação
 /questions,GET,Perguntas (frontend),Não inclui a resposta correta
 
 /questions_full,GET,Perguntas completas,Rota administrativa para revisão
+```
 
 ### 🔒 Autenticação da API
+```bash
 Variável,Valor Padrão,Uso
 API_TOKEN,super-secret-complexidade-token,Chave de autenticação em todas as rotas.
+```
 
 ### 🛑 Solução de Problemas
 Problema Comum,Solução
