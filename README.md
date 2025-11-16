@@ -151,7 +151,7 @@ uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
 ### 5. Abra o Jogo no Navegador
 http://localhost:8000/index.html
 
-### Rotas Principais
+### 🔑 Rotas da API (FastAPI)
 Rota,Método,Função,Observação
 
 /health,GET,Verifica status da API,Requer API_TOKEN
@@ -166,6 +166,7 @@ Rota,Método,Função,Observação
 
 /questions_full,GET,Perguntas completas,Rota administrativa para revisão
 
+### 🔒 Autenticação da API
 Variável,Valor Padrão,Uso
 API_TOKEN,super-secret-complexidade-token,Chave de autenticação em todas as rotas.
 
