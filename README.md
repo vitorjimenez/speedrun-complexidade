@@ -144,3 +144,44 @@ speedrun-complexidade/
 git clone https://github.com/SEU_USUARIO/speedrun-complexidade.git
 cd speedrun-complexidade
 
+### 2. Crie e ative o ambiente virtual
+```bash
+python -m venv venv
+
+### 3. Instale as dependências
+```bash
+pip install -r requirements.txt
+
+### 4. Rode a API
+```bash
+uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+
+### 5. Abra o jogo no navegador
+```bash
+http://localhost:8000/index.html
+
+### 6. Acesse o Swagger (teste da API)
+```bash
+http://localhost:8000/docs
+
+Rota,Método,Função,Exemplo
+/health,GET,Verifica API,"curl -H ""X-API-Token: ..."" http://localhost:8000/health"
+/launch,POST,Inicia partida,Gera session_id
+/score,POST,Envia respostas,Calcula pontos + bônus
+/results,GET,Ranking,Lista jogadores
+/questions,GET,Perguntas (sem resposta),Usado no frontend
+/questions_full,GET,Perguntas completas,Para revisão
+
+Variável,Valor Padrão,Uso
+API_TOKEN,super-secret-complexidade-token,Autenticação em todas as rotas
+
+Problema,Solução
+uvicorn not found,pip install uvicorn
+Porta 8000 ocupada,Use --port 8001
+Erro de CORS,Frontend já tem getAuthHeaders()
+Banco não criado,Rode a API uma vez → speedrun.db é gerado
+
+Nome,GitHub,Função
+Nicolas Silva,@nicolas,Full Stack + Gráficos
+Vinicius Cerqueira,@vinicius,Backend + Banco
+Vitor Jimenez,@vitor,Frontend + UX
