@@ -183,6 +183,7 @@ Porta 8000 ocupada,Use --port 8001 no comando uvicorn
 Erro de CORS,O frontend (script.js) já possui a lógica de headers.
 speedrun.db não existe,O banco é gerado automaticamente na primeira execução da API.
 
+🤝 Contato
 Nome,GitHub,Função
 Nicolas Silva,@nicolas,Full Stack + Gráficos
 Vinicius Cerqueira,@vinicius,Backend + Banco
