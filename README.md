@@ -73,7 +73,7 @@ O quiz é uma "corrida" contra o tempo, com foco em gamificação:
 ### ❌ Penalidades
 
 * **Tempo Esgotado:** 0 pontos na pergunta.
-* **Resposta Errada:** 0 pontos na pergunta (sem penalidade extra).
+* **Erro:** 0 pontos na pergunta (sem penalidade extra).
 
 ---
 
