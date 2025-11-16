@@ -13,7 +13,7 @@
 
 ### 👥 Grupo de Desenvolvimento
 
-| Nome | RA |
+| Nome | RGM |
 |:---|:---|
 | **Nicolas Silva** | 123456789 |
 | **Vinicius Cerqueira** | 987654321 |
@@ -129,10 +129,44 @@ speedrun-complexidade/├── app/│   └── main.py              # 🚀 
 ```bash
 git clone [https://github.com/SEU_USUARIO/speedrun-complexidade.git](https://github.com/SEU_USUARIO/speedrun-complexidade.git)
 cd speedrun-complexidade
-2. Crie e Ative o Ambiente VirtualBashpython -m venv venv
+
+### 2. Crie e Ative o Ambiente Virtual
+
+```bash
+python -m venv venv
 source venv/bin/activate  # Linux/macOS
 # venv\Scripts\activate.bat  # Windows (cmd)
-3. Instale as DependênciasBashpip install -r requirements.txt
-4. Rode a APIO servidor Uvicorn iniciará a aplicação do backend na porta 8000.Bashuvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
-5. Abra o Jogo no NavegadorCom a API rodando, acesse a interface principal:http://localhost:8000/index.html
-🔑 Detalhes da API e Solução de ProblemasRotas PrincipaisRotaMétodoFunçãoObservação/healthGETVerifica status da APIRequer API_TOKEN/launchPOSTInicia partidaRetorna session_id/scorePOSTEnvia respostasCalcula pontuação e salva ranking/resultsGETRankingLista os jogadores/questionsGETPerguntas (frontend)Não inclui a resposta correta/questions_fullGETPerguntas completasRota administrativa para revisãoVariávelValor PadrãoUsoAPI_TOKENsuper-secret-complexidade-tokenChave de autenticação em todas as rotas.🛑 Solução de ProblemasProblema ComumSoluçãouvicorn not foundExecute pip install uvicornPorta 8000 ocupadaUse --port 8001 no comando uvicornErro de CORSO frontend (script.js) já possui a lógica de headers.speedrun.db não existeO banco é gerado automaticamente na primeira execução da API.🤝 ContatoNomeGitHubFunção PrincipalNicolas Silva@nicolasFull Stack + GráficosVinicius Cerqueira@viniciusBackend + BancoVitor Jimenez@vitorFrontend + UX/UI
+
+###3. Instale as Dependências
+pip install -r requirements.txt
+
+###4. Rode a API
+uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+
+###5. Abra o Jogo no Navegador
+http://localhost:8000/index.html
+
+###Rotas Principais
+Rota,Método,Função,Observação
+/health,GET,Verifica status da API,Requer API_TOKEN
+/launch,POST,Inicia partida,Retorna session_id
+/score,POST,Envia respostas,Calcula pontuação e salva ranking
+/results,GET,Ranking,Lista os jogadores
+/questions,GET,Perguntas (frontend),Não inclui a resposta correta
+/questions_full,GET,Perguntas completas,Rota administrativa para revisão
+
+Variável,Valor Padrão,Uso
+API_TOKEN,super-secret-complexidade-token,Chave de autenticação em todas as rotas.
+
+###🛑 Solução de Problemas
+Problema Comum,Solução
+uvicorn not found,Execute pip install uvicorn
+Porta 8000 ocupada,Use --port 8001 no comando uvicorn
+Erro de CORS,O frontend (script.js) já possui a lógica de headers.
+speedrun.db não existe,O banco é gerado automaticamente na primeira execução da API.
+
+###🤝 Contato
+Nome,GitHub,Função Principal
+Nicolas Silva,@nicolas,Full Stack + Gráficos
+Vinicius Cerqueira,@vinicius,Backend + Banco
+Vitor Jimenez,@vitor,Frontend + UX/UI
