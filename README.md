@@ -91,7 +91,7 @@ O quiz é uma "corrida" contra o tempo, com foco em gamificação:
 
 ## 🎥 Roteiro de Demonstração (Vídeo)
 
-**Link do vídeo:** [https://youtu.be/XXXXXXX]([https://youtu.be/XXXXXXX](https://youtu.be/gtKo6G85GAw) *(Lembre-se de substituir pelo seu link real)*
+**Link do vídeo:** https://youtu.be/XXXXXXX]([https://youtu.be/XXXXXXX](https://youtu.be/gtKo6G85GAw) *(Lembre-se de substituir pelo seu link real)*
 
 | Tempo | Conteúdo |
 |:------|:---------|
