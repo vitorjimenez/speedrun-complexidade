@@ -115,7 +115,7 @@ O quiz é uma "corrida" contra o tempo, com foco em gamificação:
 
 ---
 
-## 🗂️ Estrutura do Projeto
+### 🗂️ Estrutura do Projeto
 
 A organização dos diretórios e arquivos é a seguinte:
 
