@@ -139,10 +139,14 @@ source venv/bin/activate  # Linux/macOS
 # venv\Scripts\activate.bat  # Windows (cmd)
 ```
 ### 3. Instale as Dependências
+```bash
 pip install -r requirements.txt
 
+```
 ### 4. Rode a API
+```bash
 uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+```
 
 ### 5. Abra o Jogo no Navegador
 http://localhost:8000/index.html
