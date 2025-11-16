@@ -129,6 +129,7 @@ speedrun-complexidade/├── app/│   └── main.py              # 🚀 
 ```bash
 git clone [https://github.com/SEU_USUARIO/speedrun-complexidade.git](https://github.com/SEU_USUARIO/speedrun-complexidade.git)
 cd speedrun-complexidade
+```
 
 ### 2. Crie e Ative o Ambiente Virtual
 
@@ -136,17 +137,17 @@ cd speedrun-complexidade
 python -m venv venv
 source venv/bin/activate  # Linux/macOS
 # venv\Scripts\activate.bat  # Windows (cmd)
-
-###3. Instale as Dependências
+```
+### 3. Instale as Dependências
 pip install -r requirements.txt
 
-###4. Rode a API
+### 4. Rode a API
 uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
 
-###5. Abra o Jogo no Navegador
+### 5. Abra o Jogo no Navegador
 http://localhost:8000/index.html
 
-###Rotas Principais
+### Rotas Principais
 Rota,Método,Função,Observação
 /health,GET,Verifica status da API,Requer API_TOKEN
 /launch,POST,Inicia partida,Retorna session_id
@@ -158,14 +159,14 @@ Rota,Método,Função,Observação
 Variável,Valor Padrão,Uso
 API_TOKEN,super-secret-complexidade-token,Chave de autenticação em todas as rotas.
 
-###🛑 Solução de Problemas
+### 🛑 Solução de Problemas
 Problema Comum,Solução
 uvicorn not found,Execute pip install uvicorn
 Porta 8000 ocupada,Use --port 8001 no comando uvicorn
 Erro de CORS,O frontend (script.js) já possui a lógica de headers.
 speedrun.db não existe,O banco é gerado automaticamente na primeira execução da API.
 
-###🤝 Contato
+### 🤝 Contato
 Nome,GitHub,Função Principal
 Nicolas Silva,@nicolas,Full Stack + Gráficos
 Vinicius Cerqueira,@vinicius,Backend + Banco
