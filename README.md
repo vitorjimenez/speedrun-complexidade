@@ -4,184 +4,135 @@
 
 ---
 
-## 🎯 Identificação do Plugin (Relatório Pedagógico)
+## 🎯 Identificação do Projeto
 
-**Nome do jogo/plugin:**  
-**Speed Run Complexidade Quiz**
+| Detalhe | Valor |
+|:---|:---|
+| **Nome do Jogo/Plugin** | **Speed Run Complexidade Quiz** |
+| **Área da Disciplina** | **Computabilidade e Complexidade de Algoritmos** |
 
-**Área da disciplina:**  
-**Computabilidade e Complexidade de Algoritmos**
+### 👥 Grupo de Desenvolvimento
 
-**Grupo:**  
-- **Nicolas Silva** – RA: 123456789  
-- **Vinicius Cerqueira** – RA: 987654321  
-- **Vitor Jimenez** – RA: 567890123  
+| Nome | RA |
+|:---|:---|
+| **Nicolas Silva** | 123456789 |
+| **Vinicius Cerqueira** | 987654321 |
+| **Vitor Jimenez** | 567890123 |
 
 ---
 
 ## 🎯 Objetivo Pedagógico
 
-O jogo trabalha os **conceitos de notação Big O (tempo e espaço)**.  
-O aluno aprende a **analisar trechos de código real**, identificar padrões de crescimento e escolher a complexidade correta sob pressão de tempo.  
-Pratica **análise rápida**, **pensamento crítico** e **compreensão visual do impacto de algoritmos**.
+O jogo trabalha os **conceitos de notação Big O (tempo e espaço)**. O objetivo é que o aluno:
+
+* Aprenda a **analisar trechos de código real** (Python).
+* Identifique padrões de crescimento de complexidade.
+* Escolha a notação Big O correta sob **pressão de tempo**.
+* Pratique **análise rápida**, **pensamento crítico** e **compreensão visual** do impacto de algoritmos através dos gráficos.
 
 ---
 
 ## 🎮 Descrição do Jogo
 
-- **Regras:** 5 perguntas com código Python. 15 segundos por pergunta. Escolha única.  
-- **Duração média:** 60–75 segundos.  
-- **Feedback:**  
-  - **Imediato:** Timer vermelho, alerta de 5s.  
-  - **Final:** Pontuação total (acertos + bônus).  
-  - **Revisão:** Código, resposta correta, **gráficos de tempo e espaço**.
+O quiz é uma "corrida" contra o tempo, com foco em gamificação:
+
+* **Regras:** 5 perguntas sobre complexidade de código Python, com **15 segundos por pergunta**.
+* **Duração Média:** 60–75 segundos.
+
+### 📢 Sistema de Feedback
+
+| Tipo | Descrição |
+|:---|:---|
+| **Imediato** | Timer regressivo e alerta visual nos 5 segundos finais. |
+| **Final** | Exibição da pontuação total (acertos + bônus de tempo) e posição no ranking. |
+| **Revisão** | Após o quiz, o jogador revisa o código, a resposta correta e os **gráficos dinâmicos de tempo e espaço** para cada algoritmo. |
 
 ---
 
 ## 📚 Conteúdo Relacionado à Disciplina
 
 | Tópico do Plano de Ensino | Como o Jogo Ajuda |
-|---------------------------|-------------------|
-| **Notação Assintótica (Big O)** | Aluno lê código → escolhe `O(n)`, `O(n²)`, etc. |
-| **Análise de Loops** | Perguntas com `for`, `while`, loops aninhados |
-| **Busca Binária** | Demonstra `O(log n)` com código funcional |
-| **Merge Sort** | Mostra `O(n log n)` com recursão |
-| **Complexidade de Espaço** | Gráfico separado: `O(1)` vs `O(n)` |
+|:--------------------------|:-------------------|
+| **Notação Assintótica (Big O)** | O aluno lê o código e escolhe a complexidade correta: `O(n)`, `O(n²)`, etc. |
+| **Análise de Loops** | Perguntas abordam estruturas de controle como `for`, `while` e _loops_ aninhados. |
+| **Busca Binária** | Demonstra visualmente a eficiência de `O(log n)` com código funcional. |
+| **Merge Sort** | Apresenta o custo de `O(n log n)` com exemplos de recursão. |
+| **Complexidade de Espaço** | Gráfico dedicado mostra a diferença entre complexidade constante (`O(1)`) e linear (`O(n)`). |
 
 ---
 
 ## 🧮 Critérios de Pontuação
 
-- **20 pontos por acerto** → máx. 100  
-- **Bônus de tempo:** 1 ponto por segundo restante (máx. 75s)  
-- **Nota final:** `total_score` (ex: 115)  
-- **Mínimo para aprovação:** 60 pontos  
-- **Penalidades:**  
-  - Tempo esgotado → 0 pontos na pergunta  
-  - Erro → 0 pontos (sem penalidade extra)
+| Item | Pontuação | Observação |
+|:---|:---|:---|
+| **Acerto** | **+20 pontos** | Máximo de 100 pontos na base. |
+| **Bônus de Tempo** | **+1 ponto** por segundo restante | Máximo de 75 pontos de bônus. |
+| **Nota Final** | `total_score` | Soma da Base + Bônus (ex: 115). |
+| **Aprovação** | Mínimo de **60 pontos** | Limite pedagógico para sucesso. |
+
+### ❌ Penalidades
+
+* **Tempo Esgotado:** 0 pontos na pergunta.
+* **Resposta Errada:** 0 pontos na pergunta (sem penalidade extra).
 
 ---
 
 ## 🧪 Testes Realizados
 
 | Caso | Descrição | Resultado |
-|------|---------|---------|
-| 1 | 5 acertos em 60s | `115` (100 + 15) |
-| 2 | 3 acertos + 2 erros em 70s | `65` (60 + 5) |
+|:-----|:----------|:----------|
+| 1 | 5 acertos em 60 segundos | `115` (100 base + 15 bônus) |
+| 2 | 3 acertos + 2 erros em 70 segundos | `65` (60 base + 5 bônus) |
 | 3 | Tempo esgotado em 1 pergunta | `80` (4 acertos) |
-| 4 | Token inválido | `401 Unauthorized` |
-| 5 | Revisão com gráficos | Gráficos desenhados corretamente |
+| 4 | Token inválido na API | `401 Unauthorized` |
+| 5 | Revisão com gráficos | Gráficos desenhados corretamente, comprovando a notação. |
 
 ---
 
 ## 🎥 Roteiro de Demonstração (Vídeo)
 
-**Link do vídeo:** [https://youtu.be/XXXXXXX](https://youtu.be/XXXXXXX) *(substitua pelo seu link)*
+**Link do vídeo:** [https://youtu.be/XXXXXXX](https://youtu.be/XXXXXXX) *(Lembre-se de substituir pelo seu link real)*
 
-**Duração:** 3 minutos  
-**Apresentador:** Apenas voz (sem aparecer)
-
-### Roteiro:
-
-> **[0:00 - 0:15]**  
-> _"Por que criamos o Speed Run? Porque alunos decoram Big O, mas não entendem o impacto real."_
-
-> **[0:15 - 0:40]**  
-> _"Nosso jogo resolve isso com um quiz cronometrado, código real e gráficos que mostram o crescimento."_
-
-> **[0:40 - 1:40]**  
-> _[Mostre o jogo]_  
-> _"O jogador tem 15 segundos por pergunta. Ganha 20 pontos por acerto + bônus por tempo. Veja o gráfico: O(n²) explode!"_
-
-> **[1:40 - 2:20]**  
-> _[Mostre revisão]_  
-> _"Na revisão, o aluno vê o código, a resposta e os gráficos de tempo e espaço. Aprendizado visual."_
-
-> **[2:20 - 2:50]**  
-> _[Mostre ranking]_  
-> _"O ranking motiva repetição. Usamos FastAPI, SQLite e Chart.js. Aprendemos full stack e design pedagógico."_
-
-> **[2:50 - 3:00]**  
-> _"O Speed Run transforma teoria em prática. Obrigado!"_
+| Tempo | Conteúdo |
+|:------|:---------|
+| **[0:00 - 0:15]** | Introdução ao problema pedagógico e a motivação para o Speed Run. |
+| **[0:15 - 0:40]** | Apresentação da solução: quiz cronometrado, código real e gráficos de crescimento. |
+| **[0:40 - 1:40]** | **Demonstração em Tempo Real** do jogo. Ênfase no `O(n²)` e como o gráfico "explode!". |
+| **[1:40 - 2:20]** | Foco na **Revisão Visual** (código, resposta, gráficos de tempo/espaço). |
+| **[2:20 - 2:50]** | Destaque para o **Ranking** (motivação) e as tecnologias utilizadas. |
+| **[2:50 - 3:00]** | Conclusão: a transformação da teoria de Big O em prática. |
 
 ---
 
 ## 👨‍💻 Tecnologias
 
 | Tecnologia | Uso |
-|----------|-----|
-| **Python + FastAPI** | Backend com API REST |
-| **SQLite** | Banco de dados leve |
-| **HTML + Tailwind + Chart.js** | Frontend com gráficos dinâmicos |
-| **Git/GitHub** | Controle de versão |
-| **Uvicorn** | Servidor local |
+|:----------|:-----|
+| **Python + FastAPI** | Backend robusto, provendo a API REST. |
+| **SQLite** | Banco de dados leve para armazenar o ranking. |
+| **HTML + Tailwind + Chart.js** | Frontend moderno, com gráficos dinâmicos. |
+| **Uvicorn** | Servidor ASGI para execução local. |
 
 ---
 
 ## 🗂️ Estrutura do Projeto
-speedrun-complexidade/
-├── app/
-│   └── main.py              # API completa (FastAPI + SQLite)
-├── index.html               # Tela do jogo
-├── results.html             # Ranking
-├── script.js                # Lógica do quiz + gráficos
-├── style.css                # (opcional)
-├── questions.json           # Perguntas com Big O de tempo e espaço
-├── database_schema.json     # Modelo relacional
-├── speedrun.db              # Banco (gerado automaticamente)
-├── relatorio_pedagogico.md  # ← Relatório completo
-├── fase_final_demo.mp4      # Vídeo de demonstração
-├── requirements.txt
-├── README.md                # ← este arquivo
-└── venv/
 
+A organização dos diretórios e arquivos é a seguinte:
+
+speedrun-complexidade/├── app/│   └── main.py              # 🚀 API Principal (FastAPI + SQLite)├── index.html               # 🎮 Interface do Jogo (Quiz)├── results.html             # 🏆 Página de Ranking├── script.js                # 🧠 Lógica do Quiz e Geração de Gráficos├── style.css                # 🎨 Estilos da Aplicação (Opcional)├── questions.json           # 📜 Perguntas com Big O de tempo e espaço├── database_schema.json     # 🏗️ Modelo Relacional do Banco├── speedrun.db              # 💾 Banco de Dados SQLite (Gerado automaticamente)├── relatorio_pedagogico.md  # 📝 Relatório Pedagógico Completo├── fase_final_demo.mp4      # 🎬 Vídeo de Demonstração├── requirements.txt         # 📦 Dependências do Python├── README.md                # 📖 Este Arquivo└── venv/                    # 🚫 Ambiente Virtual
 ---
 
 ## ⚙️ Como Executar (Passo a Passo)
 
-### 1. Clone o repositório
+### 1. Clone o Repositório
+
 ```bash
-git clone https://github.com/SEU_USUARIO/speedrun-complexidade.git
+git clone [https://github.com/SEU_USUARIO/speedrun-complexidade.git](https://github.com/SEU_USUARIO/speedrun-complexidade.git)
 cd speedrun-complexidade
-
-### 2. Crie e ative o ambiente virtual
-```bash
-python -m venv venv
-
-### 3. Instale as dependências
-```bash
-pip install -r requirements.txt
-
-### 4. Rode a API
-```bash
-uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
-
-### 5. Abra o jogo no navegador
-```bash
-http://localhost:8000/index.html
-
-### 6. Acesse o Swagger (teste da API)
-```bash
-http://localhost:8000/docs
-
-Rota,Método,Função,Exemplo
-/health,GET,Verifica API,"curl -H ""X-API-Token: ..."" http://localhost:8000/health"
-/launch,POST,Inicia partida,Gera session_id
-/score,POST,Envia respostas,Calcula pontos + bônus
-/results,GET,Ranking,Lista jogadores
-/questions,GET,Perguntas (sem resposta),Usado no frontend
-/questions_full,GET,Perguntas completas,Para revisão
-
-Variável,Valor Padrão,Uso
-API_TOKEN,super-secret-complexidade-token,Autenticação em todas as rotas
-
-Problema,Solução
-uvicorn not found,pip install uvicorn
-Porta 8000 ocupada,Use --port 8001
-Erro de CORS,Frontend já tem getAuthHeaders()
-Banco não criado,Rode a API uma vez → speedrun.db é gerado
-
-Nome,GitHub,Função
-Nicolas Silva,@nicolas,Full Stack + Gráficos
-Vinicius Cerqueira,@vinicius,Backend + Banco
-Vitor Jimenez,@vitor,Frontend + UX
+2. Crie e Ative o Ambiente VirtualBashpython -m venv venv
+source venv/bin/activate  # Linux/macOS
+# venv\Scripts\activate.bat  # Windows (cmd)
+3. Instale as DependênciasBashpip install -r requirements.txt
+4. Rode a APIO servidor Uvicorn iniciará a aplicação do backend na porta 8000.Bashuvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+5. Abra o Jogo no NavegadorCom a API rodando, acesse a interface principal:http://localhost:8000/index.html
+🔑 Detalhes da API e Solução de ProblemasRotas PrincipaisRotaMétodoFunçãoObservação/healthGETVerifica status da APIRequer API_TOKEN/launchPOSTInicia partidaRetorna session_id/scorePOSTEnvia respostasCalcula pontuação e salva ranking/resultsGETRankingLista os jogadores/questionsGETPerguntas (frontend)Não inclui a resposta correta/questions_fullGETPerguntas completasRota administrativa para revisãoVariávelValor PadrãoUsoAPI_TOKENsuper-secret-complexidade-tokenChave de autenticação em todas as rotas.🛑 Solução de ProblemasProblema ComumSoluçãouvicorn not foundExecute pip install uvicornPorta 8000 ocupadaUse --port 8001 no comando uvicornErro de CORSO frontend (script.js) já possui a lógica de headers.speedrun.db não existeO banco é gerado automaticamente na primeira execução da API.🤝 ContatoNomeGitHubFunção PrincipalNicolas Silva@nicolasFull Stack + GráficosVinicius Cerqueira@viniciusBackend + BancoVitor Jimenez@vitorFrontend + UX/UI
