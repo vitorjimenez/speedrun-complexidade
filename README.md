@@ -119,7 +119,10 @@ O quiz é uma "corrida" contra o tempo, com foco em gamificação:
 
 A organização dos diretórios e arquivos é a seguinte:
 
-speedrun-complexidade/├── app/│/
+speedrun-complexidade/
+
+├── app/│/
+
 └── main.py              # 🚀 API Principal (FastAPI + SQLite)/
 
 ├── index.html               # 🎮 Interface do Jogo (Quiz)/
@@ -142,7 +145,8 @@ speedrun-complexidade/├── app/│/
 
 ├── requirements.txt         # 📦 Dependências do Python/
 
-├── README.md                # 📖 Este Arquivo└── venv/                    # 🚫 Ambiente Virtual
+├── README.md                # 📖 Este Arquivo└── venv/
+
 ---
 
 ## ⚙️ Como Executar (Passo a Passo)
