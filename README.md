@@ -121,7 +121,7 @@ A organização dos diretórios e arquivos é a seguinte:
 
 speedrun-complexidade/
 
-├── app/│
+├── app/
 
 └── main.py              # 🚀 API Principal (FastAPI + SQLite)/
 
