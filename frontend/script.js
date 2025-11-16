@@ -39,7 +39,7 @@ let totalGameTime = 0;
 let countdown;
 let questionStartTime; 
 
-// Funções de Utilidade (omissas para brevidade)
+// Funções de Utilidade (simplificadas)
 function showScreen(screen) {
     startScreen.classList.add('hidden');
     quizScreen.classList.add('hidden');
@@ -65,15 +65,6 @@ function startTimer() {
         const elapsedTime = (performance.now() - questionStartTime) / 1000;
         timeLeft = Math.max(0, MAX_TIME_PER_QUESTION - elapsedTime);
         
-        // Lógica da cor do timer
-        if (timeLeft <= 5) {
-            timerDisplay.classList.add('text-yellow-500');
-            timerDisplay.classList.remove('text-red-400');
-        } else {
-            timerDisplay.classList.remove('text-yellow-500');
-            timerDisplay.classList.add('text-red-400');
-        }
-
         // Lógica do EFEITO DINÂMICO no gráfico
         if (quizChartContainer) {
             // Limpa classes de animação e cores
@@ -87,7 +78,6 @@ function startTimer() {
             } else if (timeLeft <= 10) {
                 // Aviso: Pulsa devagar e glow médio (AMARELO)
                 quizChartContainer.classList.add('border-yellow-500');
-                // Usa uma animação mais lenta ou apenas uma sombra mais suave
                 quizChartContainer.style.boxShadow = '0 0 5px rgba(251, 191, 36, 0.6)'; 
             } else {
                 // Início: Brilho estável (TEAL)
@@ -102,7 +92,7 @@ function startTimer() {
             handleAnswerSubmission(null); // Submissão automática em caso de tempo esgotado
             if (quizChartContainer) {
                 quizChartContainer.style.boxShadow = 'none';
-                quizChartContainer.classList.remove('border-red-500', 'animate-pulse');
+                quizChartContainer.classList.remove('border-red-500', 'animate-pulse', 'border-2');
             }
         } else {
             updateTimerDisplay(timeLeft);
