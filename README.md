@@ -70,8 +70,6 @@ speedrun-complexidade/
 └── venv/
 ```
 
----
-
 ## ⚙️ Como Executar (Passo a Passo)
 
 ### 1. Clone o repositório
