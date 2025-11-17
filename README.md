@@ -163,7 +163,7 @@ cd speedrun-complexidade
 ```bash
 python -m venv venv
 source venv/bin/activate  # Linux/macOS
-# venv\Scripts\activate.bat  # Windows (cmd)
+source venv/Scripts/activate  # Windows (cmd)
 ```
 ### 3. Instale as Dependências
 ```bash
