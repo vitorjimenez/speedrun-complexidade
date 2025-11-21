@@ -16,8 +16,8 @@
 | Nome | RGM |
 |:---|:---|
 | **Nicolas Santana** | 34971343 |
-| **Vinicius Cerqueira** | 987654321 |
-| **Vitor Jimenez** | 567890123 |
+| **Vinicius Cerqueira** |  |
+| **Vitor Jimenez** |  |
 
 ---
 
@@ -91,7 +91,7 @@ O quiz é uma "corrida" contra o tempo, com foco em gamificação:
 
 ## 🎥 Roteiro de Demonstração (Vídeo)
 
-**Link do vídeo:** [https://youtu.be/XXXXXXX](https://youtu.be/XXXXXXX) *(Lembre-se de substituir pelo seu link real)*
+**Link do vídeo:** (https://youtu.be/gtKo6G85GAw)
 
 | Tempo | Conteúdo |
 |:------|:---------|
@@ -163,7 +163,7 @@ cd speedrun-complexidade
 ```bash
 python -m venv venv
 source venv/bin/activate  # Linux/macOS
-# venv\Scripts\activate.bat  # Windows (cmd)
+source venv/Scripts/activate  # Windows (cmd)
 ```
 ### 3. Instale as Dependências
 ```bash
@@ -178,6 +178,7 @@ uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
 ### 5. Abra o Jogo no Navegador
 ```bash
 http://localhost:8000/index.html
+http://localhost:8000/docs
 ```
 
 ### 🔑 Rotas da API (FastAPI)
