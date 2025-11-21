@@ -39,7 +39,7 @@ let totalGameTime = 0;
 let countdown;
 let questionStartTime; 
 
-// Funções de Utilidade (simplificadas)
+// Funções de Utilidade
 function showScreen(screen) {
     startScreen.classList.add('hidden');
     quizScreen.classList.add('hidden');
@@ -58,14 +58,23 @@ function startTimer() {
     
     updateTimerDisplay(timeLeft);
     
-    // Referência ao container do gráfico para o efeito dinâmico
+    // Referência ao container do gráfico para o efeito dinâmico (pulsação)
     const quizChartContainer = document.getElementById('quizTimeChart').parentElement;
 
     countdown = setInterval(() => {
         const elapsedTime = (performance.now() - questionStartTime) / 1000;
         timeLeft = Math.max(0, MAX_TIME_PER_QUESTION - elapsedTime);
         
-        // Lógica do EFEITO DINÂMICO no gráfico
+        // Lógica da cor do timer
+        if (timeLeft <= 5) {
+            timerDisplay.classList.add('text-yellow-500');
+            timerDisplay.classList.remove('text-red-400');
+        } else {
+            timerDisplay.classList.remove('text-yellow-500');
+            timerDisplay.classList.add('text-red-400');
+        }
+
+        // Lógica do EFEITO DINÂMICO no gráfico (borda e sombra)
         if (quizChartContainer) {
             // Limpa classes de animação e cores
             quizChartContainer.classList.remove('border-teal-500', 'border-yellow-500', 'border-red-500', 'animate-pulse');
@@ -126,7 +135,7 @@ function stopTimer() {
 // Lógica Principal do Quiz
 async function fetchQuestions() {
     try {
-        // Busca TODAS as perguntas para fins de dica/revisão
+        // Busca TODAS as perguntas para fins de dica/revisão (USANDO TOKEN)
         const fullResponse = await fetch(`${API_BASE_URL}/questions_full`, {
             headers: getAuthHeaders()
         }); 
@@ -189,6 +198,7 @@ function renderQuestion() {
     
     // Atualiza opções
     optionsContainer.innerHTML = '';
+    // RANDOMIZAÇÃO DE OPÇÕES: Esta linha garante a ordem aleatória das respostas
     const shuffledOptions = question.options.sort(() => Math.random() - 0.5);
 
     shuffledOptions.forEach(option => {
